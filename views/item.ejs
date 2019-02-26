@@ -9,7 +9,7 @@
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
-<link rel="stylesheet" type="text/css" href="style.css">
+<link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
 
 </head>
 
@@ -21,19 +21,22 @@
             <% include site-navigation.ejs %>
             <main class="col-sm-9">
                 <div class="main-content-div">
-                    <h6>Home > Categories > Item</h6>
+                    <h6>HOME > <%= data.item.catalogCategory%> > <%= data.item.itemName.toUpperCase()%></h6>
                     <div class="row">
                         <div class="col-sm-3">
-                            <img src="images/on-whey-protein.png" alt="On Whey Protein" height="200">
+                            <img src="<%= data.item.imageURL%>" alt="<%= data.item.itemName%>" height="200">
                         </div>
                         <div class="col-sm-9">
-                            <h4 class="bolder">Optimum Nutrition Gold Standard</h4>
-                            <h5>Whey Protein</h5>
+                            <h4 class="bolder"><%= data.item.itemName%></h4>
+                            <h5><%= data.item.catalogCategory%></h5>
+                            <% for(var i=1; i<=5; i++){ %>
+                            <span class="fa fa-star <%if(i<=data.item.rating){%>checked<%}%>"></span>
+                            <% } %>
+                            <%# <span class="fa fa-star checked"></span>
                             <span class="fa fa-star checked"></span>
                             <span class="fa fa-star checked"></span>
                             <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star checked"></span> %>
                         </div>
                     </div>
                     <div class="row">
@@ -45,7 +48,7 @@
                             Rate It</button>
                     </div>
                     <div class="row">
-                        <div class="col-sm-12">
+                        <%# <div class="col-sm-12">
                             <h5>THERE IS ONLY ONE GOLD STANDARD</h5>
                             <ul>
                                 <li>10 Consecutive Years of Award Winning Quality</li>
@@ -56,9 +59,13 @@
                                 <li>Instantized to Mix Easily Using Just a Glass and Spoon</li>
                                 <li>Over 20 Different Flavors to Choose From</li>
                             </ul>
-                        </div>
+                        </div> %>
                         <div class="col-sm-12">
-                            <h5>OPTIMUM TRUE STRENGTH</h5>
+                            <% for(var i=0; i<data.item.descriptionTitle.length; i++){ %>
+                                <h5><%= data.item.descriptionTitle[i] %></h5>
+                                <p><%= data.item.description[i] %></p>
+                            <% } %>
+                            <%# <h5>OPTIMUM TRUE STRENGTH</h5>
                             <p>True Strength is a journey. It never rests, it never quits. It's about overcoming 
                                 obstacles, accomplishing goals, and recognizing achievements. And then it resets 
                                 to achieve again. As your trusted sports nutrition partner in goal achievement, 
@@ -85,11 +92,11 @@
                                 Casein™ introduced slow-digesting nighttime protein to the weight training 
                                 world and Amino Energy created the anytime energy category in sports nutrition. 
                                 When technology makes advancements possible, ON will be the company bringing it 
-                                first to your shaker cup.</p>
+                                first to your shaker cup.</p> %>
                         </div>
                         <div class="col-sm-12">
                             <h5>NUTRITION FATCS</h5>
-                            <img src="images/nutrition-facts.png" alt="nutrition-facts">
+                            <img src="<%= data.item.nutritionFactsImage %>" alt="nutrition-facts">
                         </div>
                     </div>
                 </div>

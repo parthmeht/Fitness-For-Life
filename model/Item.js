@@ -5,16 +5,19 @@ class Item {
      * @param itemCode
      * @param itemName
      * @param catalogCategory
-     * @param author
+     * @param descriptionTitle
      * @param description
+     * @param nutritionFactsImage
      * @param rating
      * @param imageURL
      */
-    constructor(itemCode, itemName, catalogCategory, description, rating, imageURL) {
+    constructor(itemCode, itemName, catalogCategory, descriptionTitle, description, nutritionFactsImage, rating, imageURL) {
         this._itemCode = itemCode;
         this._itemName = itemName;
         this._catalogCategory = catalogCategory;
+        this._descriptionTitle = descriptionTitle;
         this._description = description;
+        this._nutritionFactsImage = nutritionFactsImage;
         this._rating = rating;
         this._imageURL = imageURL;
     }
@@ -48,6 +51,14 @@ class Item {
     set catalogCategory(value) {
         this._catalogCategory = value;
     }
+
+    get descriptionTitle(){
+        return this._descriptionTitle;
+    }
+
+    set descriptionTitle(value){
+        this._descriptionTitle = value;
+    }
     
     get description() {
         return this._description;
@@ -55,6 +66,14 @@ class Item {
     
     set description(value) {
         this._description = value;
+    }
+
+    get nutritionFactsImage(){
+        return this._nutritionFactsImage;
+    }
+
+    set nutritionFactsImage(value){
+        this._nutritionFactsImage = value;
     }
     
     get rating() {

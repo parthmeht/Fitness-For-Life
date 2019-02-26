@@ -7,7 +7,7 @@
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
-<link rel="stylesheet" type="text/css" href="style.css">
+<link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
 
 </head>
 
@@ -20,16 +20,25 @@
             <main class="col-sm-9">
                 <div class="main-content-div">
                     <ul class="ul-type-none">
-                        <li class="nav-item">WHEY PROTEIN
+                        <% for(var i=0; i<data.categories.length; i++){%>
+                        <li class="nav-item"><%= data.categories[i] %>
                             <ul>
+                                <% for(var j=0; j<data.items.length; j++){ 
+                                    if(data.items[j].catalogCategory == data.categories[i]){ %>
+                                    <li class="nav-item"><a class="nav-link" href="/categories/item/<%= data.items[j].itemCode%>"><%= data.items[j].itemName %></a></li>
+                                <% } } %>
+                            </ul>
+                        </li>
+                        <% } %>
+                            <%# <ul>
                                 <li class="nav-item"><a class="nav-link" href="item.html">Optimum Nutrition Gold Standard</a></li>
                                 <li class="nav-item"><a class="nav-link" href="item.html">GNC AMP Wheybolic</a></li>
                                 <li class="nav-item"><a class="nav-link" href="item.html">MuscleTech™ Nitro-Tech™ 100% Whey Gold</a></li>
                                 <li class="nav-item"><a class="nav-link" href="item.html">Dymatize® Nutrition ISO 100®</a></li>
                                 <li class="nav-item"><a class="nav-link" href="item.html">Isopure® Whey Protein Isolate - Unflavored</a></li>
                             </ul>
-                        </li>
-                        <li class="nav-item">BCAA
+                        </li>  %>
+                        <%# <li class="nav-item">BCAA
                             <ul>
                                 <li class="nav-item"><a class="nav-link" href="item.html">BCAA Energy, 30 Servings</a></li>
                                 <li class="nav-item"><a class="nav-link" href="item.html">Essential AmiN.O. Energy, 30 Servings</a></li>
@@ -44,7 +53,7 @@
                                 <li class="nav-item"><a class="nav-link" href="item.html">N.O.-Xplode, 30 Servings</a></li>
                                 <li class="nav-item"><a class="nav-link" href="item.html">Gold Standard Pre-Workout, 30 Servings</a></li>
                             </ul>
-                        </li>
+                        </li> %>
                     </ul>
                 </div>
             </main>
