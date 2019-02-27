@@ -13,10 +13,10 @@
 
 <body>
     <div class="container">
-        <% include header.ejs %>
-        <% include user-navigation.ejs %>
+        <% include ./partials/header.ejs %>
+        <% include ./partials/user-navigation.ejs %>
         <div class="row row-override">
-            <% include site-navigation.ejs %>
+            <% include ./partials/site-navigation.ejs %>
             <main class="col-sm-9">
                 <div class="main-content-div">
                     <ul class="ul-type-none">
@@ -34,7 +34,7 @@
                 </div>
             </main>
         </div>
-        <% include footer.ejs %>
+        <% include ./partials/footer.ejs %>
     </div>
 </body>
 </html>

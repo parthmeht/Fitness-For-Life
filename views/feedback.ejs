@@ -15,10 +15,10 @@
 
 <body>
     <div class="container">
-        <% include header.ejs %>
-        <% include user-navigation.ejs %>
+        <% include ./partials/header.ejs %>
+        <% include ./partials/user-navigation.ejs %>
         <div class="row row-override">
-            <% include site-navigation.ejs %>
+            <% include ./partials/site-navigation.ejs %>
             <main class="col-sm-9">
                 <h3>Give your feedback for</h3>
                 <div class="row">
@@ -28,11 +28,7 @@
                     <div class="col-sm-9">
                         <h4 class="bolder"><%= data.item.itemName%></h4>
                         <h5><%= data.item.catalogCategory%></h5>
-                        <p>Gold Standard 100% Whey Whey Protein Isolate 24g Protein 5.5g BCAAs 4g Glutamine & 
-                        Glutamic Acid 100% of the Protein From Whey The True Strength of Whey Whey Protein 
-                        Isolates (WPIs) are the purest form of whey protein that currently exists. WPIs are 
-                        costly to use, but rate among the best proteins that money can buy. That's why they're 
-                        the first ingredient you read on the Gold Standard 100% Whey label.</p>
+                        <p><%= data.item.description[0]%></p>
                     </div>
                 </div>
                 <div class="row">
@@ -60,7 +56,7 @@
                 </div>
             </main>
         </div>
-        <% include footer.ejs %>
+        <% include ./partials/footer.ejs %>
     </div>
 </body>
 </html>

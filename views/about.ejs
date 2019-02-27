@@ -15,10 +15,10 @@
 
 <body>
     <div class="container">
-        <% include header.ejs %>
-        <% include user-navigation.ejs %>
+        <% include ./partials/header.ejs %>
+        <% include ./partials/user-navigation.ejs %>
         <div class="row row-override">
-            <% include site-navigation.ejs %>
+            <% include ./partials/site-navigation.ejs %>
             <main class="col-sm-9">
                 <h3>ABOUT FITNESS FOR LIFE</h3>
                 <p>No matter what you’re looking for in a gym, we’ve got a membership option made for you. 
@@ -34,7 +34,7 @@
                 <h6>Welcome to Fitness for Life. The Judgement Free Zone®</h6>
             </main>
         </div>
-        <% include footer.ejs %>
+        <% include ./partials/footer.ejs %>
     </div>
 </body>
 </html>

@@ -15,10 +15,10 @@
 
 <body>
     <div class="container">
-        <% include header.ejs %>
-        <% include user-navigation.ejs %>
+        <% include ./partials/header.ejs %>
+        <% include ./partials/user-navigation.ejs %>
         <div class="row row-override">
-            <% include site-navigation.ejs %>
+            <% include ./partials/site-navigation.ejs %>
             <main class="col-sm-9">
                 <div class="main-content-div">
                     <h6>HOME > <%= data.item.catalogCategory%> > <%= data.item.itemName.toUpperCase()%></h6>
@@ -35,7 +35,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <a href="#" class="btn btn-primary main-content-div">
+                        <a href="/myItems" class="btn btn-primary main-content-div">
                             <i class="fa fab fa-heart"></i>
                             Save It</a>
                         <a href="/categories/item/<%= data.item.itemCode%>/feedback"  class="btn btn-primary main-content-div">
@@ -44,18 +44,6 @@
                         <a href="/categories" class="btn btn-primary main-content-div">Back</a>
                     </div>
                     <div class="row">
-                        <%# <div class="col-sm-12">
-                            <h5>THERE IS ONLY ONE GOLD STANDARD</h5>
-                            <ul>
-                                <li>10 Consecutive Years of Award Winning Quality</li>
-                                <li>World’s Most Trusted Sports Nutrition Brand</li>
-                                <li>Whey Protein Isolates: Primary Source</li>
-                                <li>5.5 Grams of Naturally Occurring BCAAs</li>
-                                <li>4 Grams of Naturally Occurring Glutamine and Glutamic Acid</li>
-                                <li>Instantized to Mix Easily Using Just a Glass and Spoon</li>
-                                <li>Over 20 Different Flavors to Choose From</li>
-                            </ul>
-                        </div> %>
                         <div class="col-sm-12">
                             <% for(var i=0; i<data.item.descriptionTitle.length; i++){ %>
                                 <h5><%= data.item.descriptionTitle[i] %></h5>
@@ -70,7 +58,7 @@
                 </div>
             </main>
         </div>
-        <% include footer.ejs %>
+        <% include ./partials/footer.ejs %>
     </div>
 </body>
 </html>
