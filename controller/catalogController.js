@@ -15,7 +15,7 @@ router.get('/categories', function(req, res) {
         path: req.url,
         categories: categories,
         items: itemData
-    }
+    };
     res.render('categories',{data: data});
 });
 
@@ -33,7 +33,7 @@ router.get('/categories/item/:itemCode', function(req, res) {
         title:'Item',
         path: req.url,
         item: itemData
-    }
+    };
     res.render('item',{data: data});
 });
 
@@ -41,8 +41,14 @@ router.get('/myItems', function(req, res) {
     res.render('myItems');
 });
 
-router.get('/feedback', function(req, res) {
-    res.render('feedback');
+router.get('/categories/item/:itemCode/feedback', function(req, res) {
+    var itemData = itemDb.getItem(req.params.itemCode);
+    var data= {
+        title:'Feedback',
+        path: req.url,
+        item: itemData
+    };
+    res.render('feedback',{data: data});
 });
 
 module.exports = router;
