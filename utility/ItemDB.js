@@ -402,3 +402,13 @@ var categories = ['WHEY PROTEIN','BCAA','PRE-WORKOUT SUPPLEMENTS'];
 module.exports.getCategories = function(){
     return categories;
 };
+
+module.exports.isExist = function(itemCode){
+    var exist = false;
+    for (var i = 0; i < data.length; i++) {
+        if (parseInt(data[i].itemCode) == itemCode) {
+            exist = true;
+        }
+    }
+    return exist;
+}

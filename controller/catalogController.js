@@ -28,13 +28,18 @@ router.get('/about', function(req, res) {
 });
 
 router.get('/categories/item/:itemCode', function(req, res) {
-    var itemData = itemDb.getItem(req.params.itemCode);
-    var data= {
-        title:'Item',
-        path: req.url,
-        item: itemData
-    };
-    res.render('item',{data: data});
+    var exist = itemDb.isExist(req.params.itemCode);
+    if(exist){
+        var itemData = itemDb.getItem(req.params.itemCode);
+        var data= {
+            title:'Item',
+            path: req.url,
+            item: itemData
+        };
+        res.render('item',{data: data});
+    }else{
+        res.redirect('/categories');
+    }
 });
 
 router.get('/myItems', function(req, res) {
@@ -49,6 +54,10 @@ router.get('/categories/item/:itemCode/feedback', function(req, res) {
         item: itemData
     };
     res.render('feedback',{data: data});
+});
+
+router.get('/*',function(req,res){
+    res.render('error');
 });
 
 module.exports = router;
