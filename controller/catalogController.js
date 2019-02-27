@@ -3,7 +3,7 @@ var router = express.Router();
 var itemDb = require('../utility/ItemDB');
 
 /* GET home page. */
-router.get('/', function(req, res){
+router.all('/', function(req, res){
     res.render('index');
 });
 

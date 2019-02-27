@@ -32,11 +32,6 @@
                             <% for(var i=1; i<=5; i++){ %>
                             <span class="fa fa-star <%if(i<=data.item.rating){%>checked<%}%>"></span>
                             <% } %>
-                            <%# <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star checked"></span> %>
                         </div>
                     </div>
                     <div class="row">
@@ -46,6 +41,7 @@
                         <button type="button" class="btn btn-primary main-content-div">
                             <i class="fa fas fa-star"></i>
                             Rate It</button>
+                        <a href="/categories" class="btn btn-primary main-content-div">Back</a>
                     </div>
                     <div class="row">
                         <%# <div class="col-sm-12">
@@ -65,34 +61,6 @@
                                 <h5><%= data.item.descriptionTitle[i] %></h5>
                                 <p><%= data.item.description[i] %></p>
                             <% } %>
-                            <%# <h5>OPTIMUM TRUE STRENGTH</h5>
-                            <p>True Strength is a journey. It never rests, it never quits. It's about overcoming 
-                                obstacles, accomplishing goals, and recognizing achievements. And then it resets 
-                                to achieve again. As your trusted sports nutrition partner in goal achievement, 
-                                ON demonstrates that same passion while crafting our products. From the raw 
-                                materials we source to our state-of-the-art manufacturing processes, no compromises 
-                                are made. You set the bar higher after every workout, we set the bar higher to 
-                                redefine the industry standards and ensure you realize optimum results.</p>
-                            <h5>QUALITY</h5>
-                            <p>Whey protein isolates are the purest form of whey and the main ingredient in 
-                                Gold Standard 100% Whey™. Each serving provides 24 grams of rapidly digesting 
-                                whey protein with low levels of fat, cholesterol, lactose and other stuff you 
-                                can do without making Gold Standard 100% Whey™ the standard all other proteins 
-                                are measured against.</p>
-                            <h5>CONSISTENCY</h5>
-                            <p>Optimum Nutrition has been spotting the efforts of goal driven individuals 
-                                since 1986. As one of the few companies to operate state-of-the-art manufacturing 
-                                facilities that are GMP compliant, ON assures that every shake will mix up 
-                                effortlessly because of its first-to-market instantization process. You also expect 
-                                each shake to taste the same as the last and your next. That's the kind of  
-                                consistency ON delivers.</p>
-                            <h5>HISTORY & HERITAGE</h5>
-                            <p>Optimum Nutrition is legendary for both quality and innovation. In addition to 
-                                producing the world's best-selling whey protein, ON's Gold Standard 100% 
-                                Casein™ introduced slow-digesting nighttime protein to the weight training 
-                                world and Amino Energy created the anytime energy category in sports nutrition. 
-                                When technology makes advancements possible, ON will be the company bringing it 
-                                first to your shaker cup.</p> %>
                         </div>
                         <div class="col-sm-12">
                             <h5>NUTRITION FATCS</h5>

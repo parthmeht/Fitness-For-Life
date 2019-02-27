@@ -164,20 +164,15 @@ module.exports.getItems = function () {
         
         itemsCategory.push(item);
         
-    } // end of for
+    } 
     return itemsCategory;
     
-    // return data;
 };
 
 
 module.exports.getItem = function (itemCode) {
-    console.info("from DB, Item code :" + itemCode);
     for (var i = 0; i < data.length; i++) {
-        // var itemCode = data.itemCode;
-        console.log("Data" + JSON.stringify(data[i].imgUrl));
         if (parseInt(data[i].itemCode) == itemCode) {
-            console.log("Inside if");
             var item = new Item(data[i].itemCode,
                 data[i].itemName,
                 data[i].catalogCategory,
@@ -186,13 +181,9 @@ module.exports.getItem = function (itemCode) {
                 data[i].nutritionFactsImage,
                 data[i].rating,
                 data[i].imageUrl);
-            
-            console.log("Item"+JSON.stringify(item));
-            
+        
             return item;
         }
-        // console.log("Data"+i);
-        
     }
 };
 
