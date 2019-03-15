@@ -25,90 +25,90 @@ class User {
         this._zipCode = zipCode;
         this._country = country;
     }
-    
+
     /**
      *
      * Getter and Setters
      */
-    
-    
+
+
     get userId() {
         return this._userId;
     }
 
-    set userId(value){
+    set userId(value) {
         this._userId = value;
     }
 
-    get firstName(){
+    get firstName() {
         return this._firstName;
     }
 
-    set firstName(value){
+    set firstName(value) {
         this._firstName = value;
     }
 
-    get lastName(){
+    get lastName() {
         return this._lastName;
     }
 
-    set lastName(value){
+    set lastName(value) {
         this._lastName = value;
     }
 
-    get email(){
+    get email() {
         return this._email;
     }
 
-    set email(value){
+    set email(value) {
         this._email = value;
     }
 
-    get address1(){
-        return this._address1; 
+    get address1() {
+        return this._address1;
     }
 
-    set address1(value){
+    set address1(value) {
         this._address1 = value;
     }
 
-    get address2(){
+    get address2() {
         return this._address2;
     }
 
-    set address2(value){
+    set address2(value) {
         this._address2 = value;
     }
 
-    get city(){
+    get city() {
         return this._city;
     }
 
-    set city(value){
+    set city(value) {
         this._city = value;
     }
 
-    get state(){
+    get state() {
         return this._state;
     }
 
-    set state(value){
+    set state(value) {
         this._state = value;
     }
 
-    get zipCode(){
+    get zipCode() {
         return this._zipCode;
     }
 
-    set zipCode(value){
+    set zipCode(value) {
         this._zipCode = value;
     }
 
-    get country(){
+    get country() {
         return this._country;
     }
 
-    set country(value){
+    set country(value) {
         this._country = value;
     }
 
@@ -119,6 +119,6 @@ class User {
     set userProfile(value){
         this._userProfile = value;
     } */
-        
+
 }
 module.exports = User;

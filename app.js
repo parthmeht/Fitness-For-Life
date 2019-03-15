@@ -10,7 +10,9 @@ var session = require('express-session');
 
 app.use(bodyParser.json());
 
-app.use(bodyParser.urlencoded({ extended:false }));
+app.use(bodyParser.urlencoded({
+    extended: false
+}));
 
 app.use(session({
     secret: 'fitnessforlife',
@@ -25,7 +27,7 @@ var ProfileController = require('./controller/ProfileController');
 app.use('/', ProfileController);
 app.use('/', catalogController);
 
-app.listen(8080,function(){
+app.listen(8080, function () {
     console.log('app started');
     console.log('listening on port 8080');
 });

@@ -11,68 +11,68 @@ class UserProfile {
         this._userId = userId;
         this._userItemList = [];
     }
-    
-    
+
+
     /**
      *
      * Getter and Setters
      */
-    
-    
+
+
     get userId() {
         return this._userId;
     }
 
-    set userId(value){
+    set userId(value) {
         this._userId = value;
     }
 
-    get userItemList(){
+    get userItemList() {
         return this._userItemList;
     }
 
-    set userItemList(value){
+    set userItemList(value) {
         this._userItemList = value;
     }
 
-    addItem(userItem){
-        if(userItem instanceof UserItem){
+    addItem(userItem) {
+        if (userItem instanceof UserItem) {
             this._userItemList.push(userItem);
-        }else{
+        } else {
             console.log('Invalid Object --> It should be of type UserItem')
         }
     }
 
-    removeItem(userItem){
-        if(userItem instanceof UserItem){
-            this._userItemList.filter(function(item){
-                return item!=userItem;
+    removeItem(userItem) {
+        if (userItem instanceof UserItem) {
+            this._userItemList.filter(function (item) {
+                return item != userItem;
             });
-        }else{
+        } else {
             console.log('Invalid Object --> It should be of type UserItem')
         }
     }
 
-    updateItem(userItem){
-        if(userItem instanceof UserItem){
+    updateItem(userItem) {
+        if (userItem instanceof UserItem) {
             const index = this._userItemList.findIndex((e) => e.item.itemCode === userItem.item.itemCode);
             if (index === -1) {
                 console.log('User Item not present in the list');
             } else {
                 this._userItemList[index] = userItem;
             }
-        }else{
+        } else {
             console.log('Invalid Object --> It should be of type UserItem')
         }
     }
 
-    getItems(){
+    getItems() {
         return this._userItemList;
     }
 
-    emptyProfile(){
+    emptyProfile() {
         this.userItemList = [];
     }
-        
+
 }
 module.exports = UserProfile;

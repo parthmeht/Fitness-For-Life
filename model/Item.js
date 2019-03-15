@@ -21,76 +21,76 @@ class Item {
         this._rating = rating;
         this._imageURL = imageURL;
     }
-    
-    
+
+
     /**
      *
      * Getter and Setters
      */
-    
+
     get itemCode() {
         return this._itemCode;
     }
-    
+
     set itemCode(value) {
         this._itemCode = value;
     }
-    
+
     get itemName() {
         return this._itemName;
     }
-    
+
     set itemName(value) {
         this._itemName = value;
     }
-    
+
     get catalogCategory() {
         return this._catalogCategory;
     }
-    
+
     set catalogCategory(value) {
         this._catalogCategory = value;
     }
 
-    get descriptionTitle(){
+    get descriptionTitle() {
         return this._descriptionTitle;
     }
 
-    set descriptionTitle(value){
+    set descriptionTitle(value) {
         this._descriptionTitle = value;
     }
-    
+
     get description() {
         return this._description;
     }
-    
+
     set description(value) {
         this._description = value;
     }
 
-    get nutritionFactsImage(){
+    get nutritionFactsImage() {
         return this._nutritionFactsImage;
     }
 
-    set nutritionFactsImage(value){
+    set nutritionFactsImage(value) {
         this._nutritionFactsImage = value;
     }
-    
+
     get rating() {
         return this._rating;
     }
-    
+
     set rating(value) {
         this._rating = value;
     }
-    
+
     get imageURL() {
         return this._imageURL;
     }
-    
+
     set imageURL(value) {
         this._imageURL = value;
     }
-        
+
 }
 module.exports = Item;
