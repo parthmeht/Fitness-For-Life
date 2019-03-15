@@ -135,7 +135,11 @@ router.get('/categories/item/:itemCode/feedback', function(req, res) {
 });
 
 router.get('/*',function(req,res){
-    res.render('error');
+    var data= {
+        title:'Error',
+        path: req.url
+    };
+    res.render('error',{data: data});
 });
 
 module.exports = router;

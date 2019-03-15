@@ -1,9 +1,14 @@
 var express = require('express');
 var router = express.Router();
 var userDB = require('../utility/UserDB');
+var itemDb = require('../utility/ItemDB');
 
 var bodyParser = require('body-parser');
 var session = require('express-session');
+
+var User = require('../model/User');
+var UserProfile = require('../model/UserProfile');
+var UserItem = require('../model/UserItem');
 
 router.use(bodyParser.json());
 
@@ -31,6 +36,18 @@ router.post('/logout', function(req, res){
     if(req.session.theUser){
         req.session.theUser = null;
         res.redirect('/');
+    }
+});
+
+router.get('/categories/item/saveIt/:itemCode', function(req, res){
+    if(req.session.theUser){
+        var itemData = itemDb.getItem(req.params.itemCode);
+        var userItem = new UserItem(itemData.itemCode, itemData.itemName, itemData.catalogCategory, 0, false);
+        req.session.userProfile._userItemList.push(userItem);
+        console.log('userProfile - save : ',req.session.userProfile._userItemList);
+        res.redirect('/myItems');
+    }else{
+        res.redirect('/categories/item/'+req.params.itemCode);
     }
 });
 

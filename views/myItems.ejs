@@ -21,7 +21,7 @@
             <% include ./partials/site-navigation.ejs %>
             <main class="col-sm-9">
                 <div class="main-content-div">
-                    <h3><%= data.user!=null ? data.user.firstName : 'User not logged in'%></h3>
+                    <h3><%= data.user!=null ? data.user.firstName+"'s Plan" : 'User not logged in'%></h3>
                     <table class="table">
                         <thead>
                             <tr>
@@ -45,7 +45,7 @@
                                         </th>
                                         <th>
                                             <%= data.userProfile.userItemList[i].madeIt%>
-                                            <a class="btn btn-primary btn-sm" href="/categories/item/1" role="button">Update</a>
+                                            <a class="btn btn-primary btn-sm" href="/categories/item/<%=data.userProfile.userItemList[i].itemCode%>/feedback" role="button">Update</a>
                                             <a class="btn btn-primary btn-sm" href="/myItems" role="button">Delete</a>
                                         </th>
                                     </tr>

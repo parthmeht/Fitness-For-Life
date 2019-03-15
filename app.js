@@ -18,8 +18,8 @@ app.use(session({secret: 'iloveuit'}));
 var catalogController = require('./controller/catalogController');
 var ProfileController = require('./controller/ProfileController');
 
-app.use('/', catalogController);
 app.use('/', ProfileController);
+app.use('/', catalogController);
 
 app.listen(8080,function(){
     console.log('app started');
