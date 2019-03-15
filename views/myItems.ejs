@@ -46,7 +46,7 @@
                                         <th>
                                             <%= data.userProfile.userItemList[i].madeIt%>
                                             <a class="btn btn-primary btn-sm" href="/categories/item/<%=data.userProfile.userItemList[i].itemCode%>/feedback" role="button">Update</a>
-                                            <a class="btn btn-primary btn-sm" href="/myItems" role="button">Delete</a>
+                                            <a class="btn btn-primary btn-sm" href="/myItems/delete/<%=data.userProfile.userItemList[i].itemCode%>" role="button">Delete</a>
                                         </th>
                                     </tr>
                                 <% } %>

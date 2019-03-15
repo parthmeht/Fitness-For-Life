@@ -2,7 +2,7 @@
     <% if(data==undefined || data.user==null){%>
         <span class="header-span">Not Logged In</span>
     <%}else{%>
-        <span class="header-span"><%= data.user.firstName+' '+data.user.lastName%></span>
+        <span class="header-span"><%= 'Welcome '+data.user.firstName+' '+data.user.lastName%></span>
     <% } %>
     <h1><img src="/images/stretching-exercises.png" alt="stretching-exercises" height="70" width="100"> Fitness For Life</h1>
 </header>

@@ -14,8 +14,6 @@ router.use(bodyParser.json());
 
 router.use(bodyParser.urlencoded({ extended:false }));
 
-router.use(session({secret: 'iloveuit'}));
-
 router.post('/login', function(req, res){
     if(req.session.theUser){
         console.log('User already logged in');
@@ -77,10 +75,26 @@ router.post('/update/feedback/:itemCode', function(req, res){
     }
 });
 
+router.get('/myItems/delete/:itemCode', function(req, res){
+    var index = -1;
+    if(req.session.theUser){
+        index = getSelectedItem(req.session.userProfile._userItemList, req.params.itemCode);
+        if(index==-2){
+            console.log('Item not present in the users profile');
+            res.redirect('/myItems');
+        }else{
+            req.session.userProfile._userItemList.splice(index, 1);
+            res.redirect('/myItems');
+        }
+    }else{
+        res.redirect('/myItems');
+    }
+});
+
 function getSelectedItem(itemList, itemCode){
     for (var index = 0; index < itemList.length; index++) {
-        console.log(itemList[index]._itemCode);
-        console.log(itemList[index]._itemCode == parseInt(itemCode,10));
+        //console.log(itemList[index]._itemCode);
+        //console.log(itemList[index]._itemCode == parseInt(itemCode,10));
         if(itemList[index]._itemCode == parseInt(itemCode,10)){
             return index;        
         }

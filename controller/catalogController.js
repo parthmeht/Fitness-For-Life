@@ -13,8 +13,6 @@ router.use(bodyParser.json());
 
 router.use(bodyParser.urlencoded({ extended:false }));
 
-router.use(session({secret: 'iloveuit'}));
-
 var user = null;
 var userProfile = null;
 
@@ -34,7 +32,7 @@ router.use(function getSession(req,res,next){
 
             userProfile.addItem(userItem);
         }
-        console.log(userProfile);
+        //console.log(userProfile);
     }else{
         user = null;
         userProfile = null;
