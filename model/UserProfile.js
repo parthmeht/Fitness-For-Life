@@ -1,4 +1,4 @@
-var UserItem = require('UserItem');
+var UserItem = require('./UserItem');
 
 class UserProfile {
 

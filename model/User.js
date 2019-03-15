@@ -12,9 +12,8 @@ class User {
      * @param state
      * @param zipCode
      * @param country
-     * @param userProfile
      */
-    constructor(userId, firstName, lastName, email, address1, address2, city, state, zipCode, country, userProfile) {
+    constructor(userId, firstName, lastName, email, address1, address2, city, state, zipCode, country) {
         this._userId = userId;
         this._firstName = firstName;
         this._lastName = lastName;
@@ -25,9 +24,7 @@ class User {
         this._state = state;
         this._zipCode = zipCode;
         this._country = country;
-        this._userProfile = userProfile;
     }
-    
     
     /**
      *
@@ -115,13 +112,13 @@ class User {
         this._country = value;
     }
 
-    get userProfile(){
+    /* get userProfile(){
         return this._userProfile;
     }
 
     set userProfile(value){
         this._userProfile = value;
-    }
+    } */
         
 }
 module.exports = User;

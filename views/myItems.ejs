@@ -21,7 +21,7 @@
             <% include ./partials/site-navigation.ejs %>
             <main class="col-sm-9">
                 <div class="main-content-div">
-                    <h3>Parth's Plan</h3>
+                    <h3><%= data.user!=null ? data.user.firstName : 'User not logged in'%></h3>
                     <table class="table">
                         <thead>
                             <tr>
@@ -32,56 +32,26 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <th scope="row" class="text-align-left">
-                                    <i class="fa fas fa-bookmark color-red"></i>
-                                    Optimum Nutrition Gold Standard</th>
-                                <th class="text-align-left">Whey Protein</th>
-                                <th>
-                                    <span class="fa fa-star checked"></span>
-                                    <span class="fa fa-star checked"></span>
-                                    <span class="fa fa-star checked"></span>
-                                    <span class="fa fa-star checked"></span>
-                                    <span class="fa fa-star checked"></span>
-                                </th>
-                                <th>
-                                    <input type="checkbox" disabled checked>
-                                    <a class="btn btn-primary btn-sm" href="/categories/item/1" role="button">Update</a>
-                                    <a class="btn btn-primary btn-sm" href="/myItems" role="button">Delete</a>
-                                </th>
-                            </tr>
-                            <tr>
-                                <th scope="row" class="text-align-left">Xtend, 30 Servings</th>
-                                <th class="text-align-left">BCAA</th>
-                                <th>
-                                    <span class="fa fa-star checked"></span>
-                                    <span class="fa fa-star checked"></span>
-                                    <span class="fa fa-star checked"></span>
-                                    <span class="fa fa-star checked"></span>
-                                    <span class="fa fa-star"></span>
-                                </th>
-                                <th>
-                                    <input type="checkbox" disabled checked>
-                                    <a class="btn btn-primary btn-sm" href="/categories/item/1" role="button">Update</a>
-                                    <a class="btn btn-primary btn-sm" href="/myItems" role="button">Delete</a>
-                                </th>
-                            </tr>
-                            <tr>
-                                <th scope="row" class="text-align-left">Gold Standard Pre-Workout, 30 Servings</th>
-                                <th class="text-align-left">Pre-Workout Supplements</th>
-                                <th>
-                                    <span class="fa fa-star checked"></span>
-                                    <span class="fa fa-star checked"></span>
-                                    <span class="fa fa-star checked"></span>
-                                    <span class="fa fa-star checked"></span>
-                                    <span class="fa fa-star"></span>
-                                </th>
-                                <th>
-                                    <input type="checkbox" disabled>
-                                    <a class="btn btn-primary btn-sm" href="/categories/item/1" role="button">Update</a>
-                                    <a class="btn btn-primary btn-sm" href="/myItems" role="button">Delete</a>
-                                </th>
-                            </tr>
+                            <% if(data.userProfile!=null){%>
+                                <% for(var i=0; i<data.userProfile.userItemList.length; i++){ %>
+                                    <tr>
+                                        <th scope="row" class="text-align-left">
+                                            <%= data.userProfile.userItemList[i].itemName%></th>
+                                        <th class="text-align-left"><%= data.userProfile.userItemList[i].catalogCategory%></th>
+                                        <th>
+                                            <% for(var j=1; j<=5; j++){ %>
+                                            <span class="fa fa-star <%if(j<=data.userProfile.userItemList[i].rating){%>checked<%}%>"></span>
+                                            <% } %>
+                                        </th>
+                                        <th>
+                                            <%= data.userProfile.userItemList[i].madeIt%>
+                                            <a class="btn btn-primary btn-sm" href="/categories/item/1" role="button">Update</a>
+                                            <a class="btn btn-primary btn-sm" href="/myItems" role="button">Delete</a>
+                                        </th>
+                                    </tr>
+                                <% } %>
+                            <% } %>
+                        </tbody>
                     </table>
                 </div>
                 <div class="col-sm-12 main-content-div mt-5">

@@ -80,6 +80,11 @@ a{
     text-align: left;
 }
 
+.button-link{
+    background: none!important;
+    border: none;
+}
+
 .color-red{
     color: red;
 }
