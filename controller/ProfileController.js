@@ -96,7 +96,7 @@ router.get('/myItems/delete/:itemCode', function (req, res) {
             res.redirect('/myItems');
         }
     } else {
-        res.redirect('/myItems');
+        res.redirect('/');
     }
 });
 
