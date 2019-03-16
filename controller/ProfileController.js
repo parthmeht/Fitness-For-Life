@@ -28,7 +28,7 @@ router.post('/login', function (req, res) {
         req.session.theUser = user;
         req.session.userProfile = userDB.getUserProfile(user.userId);
         //console.log('seesion userprofile', req.session.userProfile);
-        res.redirect('/');
+        res.redirect('/myItems');
     }
 });
 
@@ -100,7 +100,7 @@ router.get('/myItems/delete/:itemCode', function (req, res) {
     }
 });
 
-function getSelectedItem(itemList, itemCode) {
+var getSelectedItem = function (itemList, itemCode) {
     for (var index = 0; index < itemList.length; index++) {
         //console.log(itemList[index]._itemCode);
         //console.log(itemList[index]._itemCode == parseInt(itemCode,10));
@@ -109,6 +109,8 @@ function getSelectedItem(itemList, itemCode) {
         }
     }
     return -2;
-}
+};
 
-module.exports = router;
+module.exports.getSelectedItem = getSelectedItem;
+
+module.exports.router = router;

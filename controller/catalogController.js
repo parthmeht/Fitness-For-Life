@@ -8,6 +8,7 @@ var session = require('express-session');
 var User = require('../model/User');
 var UserProfile = require('../model/UserProfile');
 var UserItem = require('../model/UserItem');
+var ProfileController = require('./ProfileController');
 
 router.use(bodyParser.json());
 
@@ -103,11 +104,17 @@ router.get('/categories/item/:itemCode', function (req, res) {
     var exist = itemDb.isExist(req.params.itemCode);
     if (exist) {
         var itemData = itemDb.getItem(req.params.itemCode);
+        var index = -1;
+        if(req.session.userProfile){
+            index = ProfileController.getSelectedItem(req.session.userProfile._userItemList, req.params.itemCode);
+        }
         var data = {
             title: 'Item',
             path: req.url,
             item: itemData,
-            user: user
+            user: user,
+            userProfile: userProfile,
+            index: index
         };
         //console.log('item : ', data.item);
         res.render('item', {

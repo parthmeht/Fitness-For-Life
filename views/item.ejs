@@ -35,13 +35,13 @@
                         </div>
                     </div>
                     <div class="row">
-                        <a href="/categories/item/saveIt/<%= data.item.itemCode%>" class="btn btn-primary main-content-div">
+                        <a href="/categories/item/saveIt/<%= data.item.itemCode%>" class="btn btn-primary main-content-div <%if(data.index>-1){%>visibility<%}%>">
                             <i class="fa fab fa-heart"></i>
                             Save It</a>
                         <a href="/categories/item/<%= data.item.itemCode%>/feedback"  class="btn btn-primary main-content-div">
                             <i class="fa fas fa-star"></i>
                             Rate It</a>
-                        <a href="/categories" class="btn btn-primary main-content-div">Back</a>
+                        <a href="/categories" class="btn btn-primary main-content-div">Continue Browsing</a>
                     </div>
                     <div class="row">
                         <div class="col-sm-12">

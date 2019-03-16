@@ -24,7 +24,7 @@ app.use(session({
 var catalogController = require('./controller/catalogController');
 var ProfileController = require('./controller/ProfileController');
 
-app.use('/', ProfileController);
+app.use('/', ProfileController.router);
 app.use('/', catalogController);
 
 app.listen(8080, function () {

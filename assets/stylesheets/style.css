@@ -88,3 +88,7 @@ a{
 .color-red{
     color: red;
 }
+
+.visibility{
+    display:none;
+}
