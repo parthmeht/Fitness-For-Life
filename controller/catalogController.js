@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var itemDb = require('../utility/ItemDB');
-
+var userDB = require('../utility/UserDB');
 var bodyParser = require('body-parser');
 var session = require('express-session');
 
@@ -50,8 +50,6 @@ router.all('/', function (req, res) {
         path: req.url,
         user: user
     };
-    console.log('user : ', data.user);
-    //console.log('path : ',data.path);
     res.render('index', {
         data: data
     });
@@ -127,17 +125,23 @@ router.get('/categories/item/:itemCode', function (req, res) {
 });
 
 router.get('/myItems', function (req, res) {
-    var data = {
-        title: 'myItems',
-        path: req.url,
-        user: user,
-        userProfile: userProfile
-    };
-    //console.log('user : ',data.user);
-    //console.log('path : ',data.path);
-    res.render('myItems', {
-        data: data
-    });
+    if (req.session.theUser) {
+        var data = {
+            title: 'myItems',
+            path: req.url,
+            user: user,
+            userProfile: userProfile
+        };
+        res.render('myItems', {
+            data: data
+        });
+    } else {
+        var users = userDB.getUsers();
+        var user1 = users[Math.floor(Math.random() * users.length)];
+        req.session.theUser = user1;
+        req.session.userProfile = userDB.getUserProfile(user1.userId);
+        res.redirect('/myItems');
+    }
 });
 
 router.get('/categories/item/:itemCode/feedback', function (req, res) {

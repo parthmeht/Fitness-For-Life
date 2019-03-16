@@ -100,6 +100,15 @@ router.get('/myItems/delete/:itemCode', function (req, res) {
     }
 });
 
+router.get('/user/newPlan', function(req, res){
+    if (req.session.theUser) {
+        req.session.userProfile._userItemList = [];
+        res.redirect('/myItems');
+    } else{
+        res.redirect('/');
+    }
+});
+
 var getSelectedItem = function (itemList, itemCode) {
     for (var index = 0; index < itemList.length; index++) {
         //console.log(itemList[index]._itemCode);
