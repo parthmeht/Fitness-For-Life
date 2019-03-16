@@ -75,8 +75,12 @@ router.post('/update/feedback/:itemCode', function (req, res) {
                     res.redirect('/myItems');
                 } else if (req.body.feedbackHidden == 'madeIt') {
                     console.log(req.body.madeItRadio);
-                    req.session.userProfile._userItemList[index]._madeIt = JSON.parse(req.body.madeItRadio);
-                    res.redirect('/myItems');
+                    if(req.body.madeItRadio!=undefined){
+                        req.session.userProfile._userItemList[index]._madeIt = JSON.parse(req.body.madeItRadio);
+                        res.redirect('/myItems');
+                    }else{
+                        res.redirect('/categories/item/' + req.params.itemCode + '/feedback');
+                    }
                 } else {
                     console.log('Incorrect paramter');
                     res.redirect('/categories/item/' + req.params.itemCode + '/feedback');
