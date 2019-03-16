@@ -34,6 +34,8 @@
                 
                 <form method="POST" action="/update/feedback/<%= data.item.itemCode%>">
                     <input type="hidden" id="ratingHidden" name="feedbackHidden" value="rating">
+                    <input type="hidden" name="itemCode" value="<%= data.item.itemCode%>">
+                    <input type="hidden" name="itemList" value="<%= data.item.itemCode%>">
                     <div class="form-group row">
                         <label for="staticRating" class="col-md-2 col-form-label">Rating</label>
                         <div class="col-md-6">
@@ -58,6 +60,8 @@
                 </div> %>
                 <form method="POST" action="/update/feedback/<%= data.item.itemCode%>">
                     <input type="hidden" id="madeItHidden" name="feedbackHidden" value="madeIt">
+                    <input type="hidden" name="itemCode" value="<%= data.item.itemCode%>">
+                    <input type="hidden" name="itemList" value="<%= data.item.itemCode%>">
                     <div class="form-check form-check-inline">
                         <input class="form-check-input" type="radio" name="madeItRadio" id="madeIt1" value="true">
                         <label class="form-check-label" for="madeIt1">True</label>

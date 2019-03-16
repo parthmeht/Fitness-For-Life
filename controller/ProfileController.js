@@ -60,26 +60,32 @@ router.get('/categories/item/saveIt/:itemCode', function (req, res) {
 
 router.post('/update/feedback/:itemCode', function (req, res) {
     var index = -1;
-    if (req.session.theUser) {
-        index = getSelectedItem(req.session.userProfile._userItemList, req.params.itemCode);
-        if (index == -2) {
-            console.log('Item not present in the users profile');
-            res.redirect('/myItems');
-        } else {
-            if (req.body.feedbackHidden == 'rating') {
-                console.log(req.body.rating);
-                req.session.userProfile._userItemList[index]._rating = parseInt(req.body.rating, 10);
-                res.redirect('/myItems');
-            } else if (req.body.feedbackHidden == 'madeIt') {
-                console.log(req.body.madeItRadio);
-                req.session.userProfile._userItemList[index]._madeIt = JSON.parse(req.body.madeItRadio);
+    var itemCode = -1;
+    if(req.body.itemCode == req.body.itemList){
+        itemCode = req.body.itemCode;
+        if (req.session.theUser) {
+            index = getSelectedItem(req.session.userProfile._userItemList, itemCode);
+            if (index == -2) {
+                console.log('Item not present in the users profile');
                 res.redirect('/myItems');
             } else {
-                console.log('Incorrect paramter');
-                res.redirect('/categories/item/' + req.params.itemCode + '/feedback');
+                if (req.body.feedbackHidden == 'rating') {
+                    console.log(req.body.rating);
+                    req.session.userProfile._userItemList[index]._rating = parseInt(req.body.rating, 10);
+                    res.redirect('/myItems');
+                } else if (req.body.feedbackHidden == 'madeIt') {
+                    console.log(req.body.madeItRadio);
+                    req.session.userProfile._userItemList[index]._madeIt = JSON.parse(req.body.madeItRadio);
+                    res.redirect('/myItems');
+                } else {
+                    console.log('Incorrect paramter');
+                    res.redirect('/categories/item/' + req.params.itemCode + '/feedback');
+                }
             }
+        } else {
+            res.redirect('/categories/item/' + req.params.itemCode + '/feedback');
         }
-    } else {
+    }else{
         res.redirect('/categories/item/' + req.params.itemCode + '/feedback');
     }
 });
