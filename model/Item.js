@@ -16,7 +16,7 @@ var ItemSchema = new mongoose.Schema({
     description: [String],
     nutritionFactsImage: String,
     rating: Number,
-    imageURL: String
+    imageUrl: String
 });
 
 module.exports = mongoose.model('items', ItemSchema);

@@ -2,59 +2,50 @@ var Item = require('../model/Item');
 
 var itemDB = {};
 
-module.exports.getItems = function () {
-    
-    var itemsCategory = [];
-    for (var i = 0; i < data.length; i++) {
-        var item = new Item(data[i].itemCode,
-            data[i].itemName,
-            data[i].catalogCategory,
-            data[i].descriptionTitle,
-            data[i].description,
-            data[i].nutritionFactsImage,
-            data[i].rating,
-            data[i].imageUrl);
-        
-        itemsCategory.push(item);
-        
-    } 
-    return itemsCategory;
-    
+itemDB.getItems = function () {
+    return new Promise((resolve, reject) =>{
+        Item.find({}).then(function(items) {
+            resolve(items);
+        }).catch(function(err) {
+            console.log("Error:", err);
+            return reject(err); 
+        });
+    })
 };
 
 
-module.exports.getItem = function (itemCode) {
-    for (var i = 0; i < data.length; i++) {
-        if (parseInt(data[i].itemCode) == itemCode) {
-            var item = new Item(data[i].itemCode,
-                data[i].itemName,
-                data[i].catalogCategory,
-                data[i].descriptionTitle,
-                data[i].description,
-                data[i].nutritionFactsImage,
-                data[i].rating,
-                data[i].imageUrl);
-        
-            return item;
-        }
-    }
+itemDB.getItem = function (itemCode) {
+    return new Promise((resolve, reject) =>{
+        Item.findOne({itemCode: itemCode}).then(function(item) {
+            resolve(item);
+        }).catch(function(err) {
+            console.log("Error:", err);
+            return reject(err); 
+        });
+    })
 };
 
 var categories = ['WHEY PROTEIN','BCAA','PRE-WORKOUT SUPPLEMENTS'];
 
-module.exports.getCategories = function(){
+itemDB.getCategories = function(){
     return categories;
 };
 
-module.exports.isExist = function(itemCode){
-    var exist = false;
-    for (var i = 0; i < data.length; i++) {
-        if (parseInt(data[i].itemCode) == itemCode) {
-            exist = true;
-        }
-    }
-    return exist;
-}
+itemDB.isExist = function(itemCode){
+    return new Promise((resolve, reject) =>{
+        Item.find({itemCode: itemCode}).then(function(items) {
+            if(items.length)
+                resolve(true);
+            else
+                resolve(false);
+        }).catch(function(err) {
+            console.log("Error:", err);
+            return reject(err); 
+        });
+    })
+};
+
+module.exports = itemDB;
 
 var data = [
     {

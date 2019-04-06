@@ -41,9 +41,9 @@ router.all('/', function (req, res) {
     });
 });
 
-router.get('/categories', function (req, res) {
-    var itemData = itemDb.getItems();
-    var categories = itemDb.getCategories();
+router.get('/categories', async  function (req, res) {
+    var itemData = await itemDb.getItems();
+    var categories = await itemDb.getCategories();
     var data = {
         title: 'Categories',
         path: req.url,
@@ -84,10 +84,11 @@ router.get('/about', function (req, res) {
     });
 });
 
-router.get('/categories/item/:itemCode', function (req, res) {
-    var exist = itemDb.isExist(req.params.itemCode);
+router.get('/categories/item/:itemCode', async function (req, res) {
+    var exist = await itemDb.isExist(req.params.itemCode);
     if (exist) {
-        var itemData = itemDb.getItem(req.params.itemCode);
+        var itemData = await itemDb.getItem(req.params.itemCode);
+        console.log(itemData);
         var index = -1;
         if(req.session.userProfile){
             index = ProfileController.getSelectedItem(req.session.userProfile._userItemList, req.params.itemCode);
@@ -110,7 +111,7 @@ router.get('/categories/item/:itemCode', function (req, res) {
     }
 });
 
-router.get('/myItems', function (req, res) {
+router.get('/myItems', async function (req, res) {
     if (req.session.theUser) {
         var data = {
             title: 'myItems',
@@ -122,16 +123,16 @@ router.get('/myItems', function (req, res) {
             data: data
         });
     } else {
-        var users = userDB.getUsers();
+        var users = await userDB.getUsers();
         var user1 = users[Math.floor(Math.random() * users.length)];
         req.session.theUser = user1;
-        req.session.userProfile = userDB.getUserProfile(user1.userId);
+        //req.session.userProfile = userDB.getUserProfile(user1.userId);
         res.redirect('/myItems');
     }
 });
 
-router.get('/categories/item/:itemCode/feedback', function (req, res) {
-    var itemData = itemDb.getItem(req.params.itemCode);
+router.get('/categories/item/:itemCode/feedback', async function (req, res) {
+    var itemData = await itemDb.getItem(req.params.itemCode);
     var data = {
         title: 'Feedback',
         path: req.url,
