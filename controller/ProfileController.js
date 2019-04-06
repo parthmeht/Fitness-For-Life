@@ -39,15 +39,23 @@ router.post('/logout', function (req, res) {
     }
 });
 
-router.get('/categories/item/saveIt/:itemCode', function (req, res) {
+router.get('/categories/item/saveIt/:itemCode', async function (req, res) {
     var index = -1;
     if (req.session.theUser) {
-        index = getSelectedItem(req.session.userProfile._userItemList, req.params.itemCode);
+        index = getSelectedItem(req.session.userProfile.userItemList, req.params.itemCode);
         if (index == -2) {
-            var itemData = itemDb.getItem(req.params.itemCode);
-            var userItem = new UserItem(itemData.itemCode, itemData.itemName, itemData.catalogCategory, 0, false);
-            req.session.userProfile._userItemList.push(userItem);
-            console.log('userProfile - save : ', req.session.userProfile._userItemList);
+            var itemData = await itemDb.getItem(req.params.itemCode);
+            var userItem = {
+                itemCode: itemData.itemCode, 
+                itemName: itemData.itemName, 
+                catalogCategory: itemData.catalogCategory, 
+                rating: 0, 
+                madeIt: false
+            };
+            var userProfile = await userDB.addUserItem(req.session.theUser.userId,userItem);
+            req.session.userProfile = userProfile;
+            //req.session.userProfile.userItemList.push(userItem);
+            console.log('userProfile - save : ', req.session.userProfile.userItemList);
             res.redirect('/myItems');
         } else {
             console.log('Item already present');
@@ -58,25 +66,29 @@ router.get('/categories/item/saveIt/:itemCode', function (req, res) {
     }
 });
 
-router.post('/update/feedback/:itemCode', function (req, res) {
+router.post('/update/feedback/:itemCode', async function (req, res) {
     var index = -1;
     var itemCode = -1;
     if(req.body.itemCode == req.body.itemList){
         itemCode = req.body.itemCode;
         if (req.session.theUser) {
-            index = getSelectedItem(req.session.userProfile._userItemList, itemCode);
+            index = getSelectedItem(req.session.userProfile.userItemList, itemCode);
             if (index == -2) {
                 console.log('Item not present in the users profile');
                 res.redirect('/myItems');
             } else {
                 if (req.body.feedbackHidden == 'rating') {
                     console.log(req.body.rating);
-                    req.session.userProfile._userItemList[index]._rating = parseInt(req.body.rating, 10);
+                    var userProfile = await userDB.addItemRating(itemCode, req.session.theUser.userId, parseInt(req.body.rating, 10));
+                    req.session.userProfile = userProfile;
+                    //req.session.userProfile.userItemList[index].rating = parseInt(req.body.rating, 10);
                     res.redirect('/myItems');
                 } else if (req.body.feedbackHidden == 'madeIt') {
                     console.log(req.body.madeItRadio);
                     if(req.body.madeItRadio!=undefined){
-                        req.session.userProfile._userItemList[index]._madeIt = JSON.parse(req.body.madeItRadio);
+                        var userProfile = await userDB.addMadeIt(itemCode, req.session.theUser.userId, JSON.parse(req.body.madeItRadio));
+                        req.session.userProfile = userProfile;
+                        //req.session.userProfile.userItemList[index].madeIt = JSON.parse(req.body.madeItRadio);
                         res.redirect('/myItems');
                     }else{
                         res.redirect('/categories/item/' + req.params.itemCode + '/feedback');
@@ -94,15 +106,17 @@ router.post('/update/feedback/:itemCode', function (req, res) {
     }
 });
 
-router.get('/myItems/delete/:itemCode', function (req, res) {
+router.get('/myItems/delete/:itemCode', async function (req, res) {
     var index = -1;
     if (req.session.theUser) {
-        index = getSelectedItem(req.session.userProfile._userItemList, req.params.itemCode);
+        index = getSelectedItem(req.session.userProfile.userItemList, req.params.itemCode);
         if (index == -2) {
             console.log('Item not present in the users profile');
             res.redirect('/myItems');
         } else {
-            req.session.userProfile._userItemList.splice(index, 1);
+            var userProfile = await userDB.deleteUserItem(req.params.itemCode,req.session.theUser.userId);
+            req.session.userProfile = userProfile;
+            //req.session.userProfile.userItemList.splice(index, 1);
             res.redirect('/myItems');
         }
     } else {
@@ -123,7 +137,7 @@ var getSelectedItem = function (itemList, itemCode) {
     for (var index = 0; index < itemList.length; index++) {
         //console.log(itemList[index]._itemCode);
         //console.log(itemList[index]._itemCode == parseInt(itemCode,10));
-        if (itemList[index]._itemCode == parseInt(itemCode, 10)) {
+        if (itemList[index].itemCode == parseInt(itemCode, 10)) {
             return index;
         }
     }

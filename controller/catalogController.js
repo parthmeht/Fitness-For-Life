@@ -92,7 +92,7 @@ router.get('/categories/item/:itemCode', async function (req, res) {
         console.log(itemData);
         var index = -1;
         if(req.session.userProfile){
-            index = ProfileController.getSelectedItem(req.session.userProfile._userItemList, req.params.itemCode);
+            index = ProfileController.getSelectedItem(req.session.userProfile.userItemList, req.params.itemCode);
         }
         var data = {
             title: 'Item',
