@@ -26,8 +26,8 @@ router.post('/login', async function (req, res) {
         var user = users[Math.floor(Math.random() * users.length)];
         console.log(user);
         req.session.theUser = user;
-        //req.session.userProfile = await userDB.getUserProfile(user.userId);
-        //console.log('seesion userprofile', req.session.userProfile);
+        req.session.userProfile = await userDB.getUserProfile(user.userId);
+        console.log('seesion userprofile', req.session.userProfile);
         res.redirect('/myItems');
     }
 });

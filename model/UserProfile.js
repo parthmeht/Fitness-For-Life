@@ -1,78 +1,39 @@
-var UserItem = require('./UserItem');
+var mongoose = require('mongoose');
 
-class UserProfile {
-
-    /**
-     * Constructor
-     * @param userId
-     * @param userItemList
-     */
-    constructor(userId) {
-        this._userId = userId;
-        this._userItemList = [];
+var schemaOptions = {
+    timestamps: true,
+    toJSON: {
+      virtuals: true
     }
+};
 
-
-    /**
-     *
-     * Getter and Setters
-     */
-
-
-    get userId() {
-        return this._userId;
-    }
-
-    set userId(value) {
-        this._userId = value;
-    }
-
-    get userItemList() {
-        return this._userItemList;
-    }
-
-    set userItemList(value) {
-        this._userItemList = value;
-    }
-
-    addItem(userItem) {
-        if (userItem instanceof UserItem) {
-            this._userItemList.push(userItem);
-        } else {
-            console.log('Invalid Object --> It should be of type UserItem')
+var UserProfileSchema = new mongoose.Schema({
+    userId: {
+        type: String,
+        required: true,
+        trim: true,
+        unique: true
+    },
+    userItemList: [
+        {
+            itemCode: {
+                type: String,
+                required: true
+            },
+            itemName: {
+                type: String,
+                required: true,
+                trim: true,
+            },
+            catalogCategory: {
+                type: String,
+                required: true,
+                trim: true,
+            },
+            rating: Number,
+            madeIt: Boolean
         }
-    }
+    ]
+}, schemaOptions);
 
-    removeItem(userItem) {
-        if (userItem instanceof UserItem) {
-            this._userItemList.filter(function (item) {
-                return item != userItem;
-            });
-        } else {
-            console.log('Invalid Object --> It should be of type UserItem')
-        }
-    }
-
-    updateItem(userItem) {
-        if (userItem instanceof UserItem) {
-            const index = this._userItemList.findIndex((e) => e.item.itemCode === userItem.item.itemCode);
-            if (index === -1) {
-                console.log('User Item not present in the list');
-            } else {
-                this._userItemList[index] = userItem;
-            }
-        } else {
-            console.log('Invalid Object --> It should be of type UserItem')
-        }
-    }
-
-    getItems() {
-        return this._userItemList;
-    }
-
-    emptyProfile() {
-        this.userItemList = [];
-    }
-
-}
-module.exports = UserProfile;
+module.exports = mongoose.model('users_profiles', UserProfileSchema);

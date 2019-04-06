@@ -4,7 +4,7 @@ db.createCollection("users") // Creating users collection
 
 db.createCollection("items") // Creating items collection
 
-db.createCollection("usersProfile") // Creating users profile collection
+db.createCollection("users_profiles") // Creating users profile collection
 
 db.users.insert({
     userId: "parthmehta",
@@ -386,4 +386,31 @@ db.items.insert({
     nutritionFactsImage: "/images/gold-standard-pre-workout-nutrition-facts.png",
     rating: 4,
     imageUrl: "/images/gold-standard-pre-workout.png"
+})
+
+db.users_profiles.insert({
+    userId: "parthmehta",
+    userItemList: [
+        {
+            itemCode: 1,
+            itemName: 'Optimum Nutrition Gold Standard',
+            catalogCategory: 'WHEY PROTEIN',
+            rating: 5,
+            madeIt: true
+        },
+        {
+            itemCode: 6,
+            itemName: 'Essential AmiN.O. Energy',
+            catalogCategory: 'BCAA',
+            rating: 4,
+            madeIt: true
+        },
+        {
+            itemCode: 12,
+            itemName: 'Gold Standard Pre-Workout',
+            catalogCategory: 'PRE-WORKOUT SUPPLEMENTS',
+            rating: 4,
+            madeIt: false
+        } 
+    ]
 })

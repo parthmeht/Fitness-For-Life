@@ -22,6 +22,7 @@ var userProfile = null;
 router.use(function getSession(req, res, next) {
     if (req.session.theUser) {
         user = req.session.theUser;
+        userProfile = req.session.userProfile;
     } else {
         user = null;
         userProfile = null;

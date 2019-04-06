@@ -1,5 +1,6 @@
 var mongoose = require("mongoose");
 var User = require('../model/User');
+var UserProfile = require('../model/UserProfile');
 
 var userDB = {};
 
@@ -18,6 +19,17 @@ userDB.getUser =  function (userId) {
     return new Promise((resolve, reject) =>{
         User.findOne({userId: userId}).then(function(user) {
             resolve(user);
+        }).catch(function(err) {
+            console.log("Error:", err);
+            return reject(err); 
+        });
+    })
+};
+
+userDB.getUserProfile = function (userId) {
+    return new Promise((resolve, reject) =>{
+        UserProfile.findOne({userId: userId}).then(function(userProfile) {
+            resolve(userProfile);
         }).catch(function(err) {
             console.log("Error:", err);
             return reject(err); 
