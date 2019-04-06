@@ -1,5 +1,61 @@
 var Item = require('../model/Item');
 
+var itemDB = {};
+
+module.exports.getItems = function () {
+    
+    var itemsCategory = [];
+    for (var i = 0; i < data.length; i++) {
+        var item = new Item(data[i].itemCode,
+            data[i].itemName,
+            data[i].catalogCategory,
+            data[i].descriptionTitle,
+            data[i].description,
+            data[i].nutritionFactsImage,
+            data[i].rating,
+            data[i].imageUrl);
+        
+        itemsCategory.push(item);
+        
+    } 
+    return itemsCategory;
+    
+};
+
+
+module.exports.getItem = function (itemCode) {
+    for (var i = 0; i < data.length; i++) {
+        if (parseInt(data[i].itemCode) == itemCode) {
+            var item = new Item(data[i].itemCode,
+                data[i].itemName,
+                data[i].catalogCategory,
+                data[i].descriptionTitle,
+                data[i].description,
+                data[i].nutritionFactsImage,
+                data[i].rating,
+                data[i].imageUrl);
+        
+            return item;
+        }
+    }
+};
+
+var categories = ['WHEY PROTEIN','BCAA','PRE-WORKOUT SUPPLEMENTS'];
+
+module.exports.getCategories = function(){
+    return categories;
+};
+
+module.exports.isExist = function(itemCode){
+    var exist = false;
+    for (var i = 0; i < data.length; i++) {
+        if (parseInt(data[i].itemCode) == itemCode) {
+            exist = true;
+        }
+    }
+    return exist;
+}
+
 var data = [
     {
         itemCode: 1,
@@ -359,7 +415,7 @@ var data = [
     }
 ];
 
-module.exports.getItems = function () {
+/* module.exports.getItems = function () {
     
     var itemsCategory = [];
     for (var i = 0; i < data.length; i++) {
@@ -411,4 +467,4 @@ module.exports.isExist = function(itemCode){
         }
     }
     return exist;
-}
+} */

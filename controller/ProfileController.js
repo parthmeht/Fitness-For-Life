@@ -16,17 +16,17 @@ router.use(bodyParser.urlencoded({
     extended: false
 }));
 
-router.post('/login', function (req, res) {
+router.post('/login', async function (req, res) {
     if (req.session.theUser) {
         console.log('User already logged in');
         res.redirect('/');
     } else {
-        users = userDB.getUsers();
-        //console.log(users);
+        var users = await userDB.getUsers();
+        console.log(users);
         var user = users[Math.floor(Math.random() * users.length)];
-        //console.log(user);
+        console.log(user);
         req.session.theUser = user;
-        req.session.userProfile = userDB.getUserProfile(user.userId);
+        //req.session.userProfile = await userDB.getUserProfile(user.userId);
         //console.log('seesion userprofile', req.session.userProfile);
         res.redirect('/myItems');
     }

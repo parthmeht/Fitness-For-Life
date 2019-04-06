@@ -1,7 +1,31 @@
+var mongoose = require("mongoose");
 var User = require('../model/User');
-var UserItem = require('../model/UserItem');
-var Item = require('../model/Item');
-var UserProfile = require('../model/UserProfile');
+
+var userDB = {};
+
+userDB.getUsers = function () {
+    return new Promise((resolve, reject) =>{
+        User.find({}).then(function(users) {
+            resolve(users);
+        }).catch(function(err) {
+            console.log("Error:", err);
+            return reject(err); 
+        });
+    })
+};
+
+userDB.getUser =  function (userId) {
+    return new Promise((resolve, reject) =>{
+        User.findOne({userId: userId}).then(function(user) {
+            resolve(user);
+        }).catch(function(err) {
+            console.log("Error:", err);
+            return reject(err); 
+        });
+    })
+};
+
+module.exports = userDB;
 
 var userData = [
     {
@@ -47,7 +71,7 @@ var userProfileData = [
     }
 ];
 
-module.exports.getUsers = function () {
+/* module.exports.getUsers = function () {
     
     var users = [];
     for (var i = 0; i < userData.length; i++) {
@@ -130,4 +154,4 @@ module.exports.getUserProfile = function (userId) {
         }
         
     }
-};
+}; */

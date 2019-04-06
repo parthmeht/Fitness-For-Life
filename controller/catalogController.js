@@ -21,21 +21,7 @@ var userProfile = null;
 
 router.use(function getSession(req, res, next) {
     if (req.session.theUser) {
-        var temp = req.session.theUser;
-        user = new User(temp._userId, temp._firstName, temp._lastName, temp._email, temp._address1,
-            temp._address2, temp._city, temp._state, temp._country);
-        var userProfileTemp = req.session.userProfile;
-        userProfile = new UserProfile(userProfileTemp._userId);
-        for (var j = 0; j < userProfileTemp._userItemList.length; j++) {
-            var userItem = new UserItem(userProfileTemp._userItemList[j]._itemCode,
-                userProfileTemp._userItemList[j]._itemName,
-                userProfileTemp._userItemList[j]._catalogCategory,
-                userProfileTemp._userItemList[j]._rating,
-                userProfileTemp._userItemList[j]._madeIt);
-
-            userProfile.addItem(userItem);
-        }
-        //console.log(userProfile);
+        user = req.session.theUser;
     } else {
         user = null;
         userProfile = null;
