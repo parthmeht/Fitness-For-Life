@@ -1,13 +1,13 @@
-use Fitness-For-Life  // Creating the databse
+use Fitness-For-Life 
 
-db.createCollection("users") // Creating users collection 
+db.createCollection("users") 
 
-db.createCollection("items") // Creating items collection
+db.createCollection("items") 
 
-db.createCollection("users_profiles") // Creating users profile collection
+db.createCollection("users_profiles")
 
 db.users.insert({
-    userId: "parthmehta",
+    userId: "pmehta13@uncc.edu",
     password: "password123",
     firstName: "Parth",
     lastName: "Mehta",
@@ -389,7 +389,7 @@ db.items.insert({
 })
 
 db.users_profiles.insert({
-    userId: "parthmehta",
+    userId: "pmehta13@uncc.edu",
     userItemList: [
         {
             itemCode: 1,
