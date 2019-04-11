@@ -16,6 +16,21 @@ router.use(bodyParser.urlencoded({
     extended: false
 }));
 
+router.get('/signIn', function(req,res){
+    if (req.session.theUser) {
+        console.log('User already logged in');
+        res.redirect('/');
+    }else{
+        var data = {
+            title: 'Sign In',
+            path: req.url
+        };
+        res.render('login', {
+            data: data
+        });
+    }
+});
+
 router.post('/login', async function (req, res) {
     if (req.session.theUser) {
         console.log('User already logged in');
@@ -54,7 +69,6 @@ router.get('/categories/item/saveIt/:itemCode', async function (req, res) {
             };
             var userProfile = await userDB.addUserItem(req.session.theUser.userId,userItem);
             req.session.userProfile = userProfile;
-            //req.session.userProfile.userItemList.push(userItem);
             console.log('userProfile - save : ', req.session.userProfile.userItemList);
             res.redirect('/myItems');
         } else {
@@ -81,14 +95,12 @@ router.post('/update/feedback/:itemCode', async function (req, res) {
                     console.log(req.body.rating);
                     var userProfile = await userDB.addItemRating(itemCode, req.session.theUser.userId, parseInt(req.body.rating, 10));
                     req.session.userProfile = userProfile;
-                    //req.session.userProfile.userItemList[index].rating = parseInt(req.body.rating, 10);
                     res.redirect('/myItems');
                 } else if (req.body.feedbackHidden == 'madeIt') {
                     console.log(req.body.madeItRadio);
                     if(req.body.madeItRadio!=undefined){
                         var userProfile = await userDB.addMadeIt(itemCode, req.session.theUser.userId, JSON.parse(req.body.madeItRadio));
                         req.session.userProfile = userProfile;
-                        //req.session.userProfile.userItemList[index].madeIt = JSON.parse(req.body.madeItRadio);
                         res.redirect('/myItems');
                     }else{
                         res.redirect('/categories/item/' + req.params.itemCode + '/feedback');
@@ -116,7 +128,6 @@ router.get('/myItems/delete/:itemCode', async function (req, res) {
         } else {
             var userProfile = await userDB.deleteUserItem(req.params.itemCode,req.session.theUser.userId);
             req.session.userProfile = userProfile;
-            //req.session.userProfile.userItemList.splice(index, 1);
             res.redirect('/myItems');
         }
     } else {
@@ -135,8 +146,6 @@ router.get('/user/newPlan', function(req, res){
 
 var getSelectedItem = function (itemList, itemCode) {
     for (var index = 0; index < itemList.length; index++) {
-        //console.log(itemList[index]._itemCode);
-        //console.log(itemList[index]._itemCode == parseInt(itemCode,10));
         if (itemList[index].itemCode == parseInt(itemCode, 10)) {
             return index;
         }

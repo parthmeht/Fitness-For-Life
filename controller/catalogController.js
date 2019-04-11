@@ -52,8 +52,6 @@ router.get('/categories', async  function (req, res) {
         items: itemData,
         user: user
     };
-    //console.log('user : ',data.user);
-    //console.log('path : ',data.path);
     res.render('categories', {
         data: data
     });
@@ -65,8 +63,6 @@ router.get('/contact', function (req, res) {
         path: req.url,
         user: user
     };
-    //console.log('user : ',data.user);
-    //console.log('path : ',data.path);
     res.render('contact', {
         data: data
     });
@@ -78,8 +74,6 @@ router.get('/about', function (req, res) {
         path: req.url,
         user: user
     };
-    //console.log('user : ',data.user);
-    //console.log('path : ',data.path);
     res.render('about', {
         data: data
     });
@@ -102,11 +96,9 @@ router.get('/categories/item/:itemCode', async function (req, res) {
             userProfile: userProfile,
             index: index
         };
-        //console.log('item : ', data.item);
         res.render('item', {
             data: data
         });
-        //console.log('path : ',data.path);
     } else {
         res.redirect('/categories');
     }
@@ -127,7 +119,6 @@ router.get('/myItems', async function (req, res) {
         var users = await userDB.getUsers();
         var user1 = users[Math.floor(Math.random() * users.length)];
         req.session.theUser = user1;
-        //req.session.userProfile = userDB.getUserProfile(user1.userId);
         res.redirect('/myItems');
     }
 });
@@ -140,8 +131,6 @@ router.get('/categories/item/:itemCode/feedback', async function (req, res) {
         item: itemData,
         user: user
     };
-    //console.log('user : ',data.user);
-    //console.log('path : ',data.path);
     res.render('feedback', {
         data: data
     });

@@ -5,12 +5,10 @@
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
     <div class="navbar-nav nav-div">
         <% if(data==undefined || data.user==null){%>
-            <form action="/login" method="POST">
-                <input class="button-link nav-item nav-link" type="submit" value="Login">
-            </form>
+            <a class="nav-item nav-link" href="/signIn">Sign In</a>
         <%}else{%>
             <form action="/logout" method="POST">
-                <input class="button-link nav-item nav-link" type="submit" value="Logout">
+                <input class="button-link nav-item nav-link" type="submit" value="Sign Out">
             </form>
         <% } %>
         <%# <a class="nav-item nav-link" href="#">Sign In</a><span class="nav-spans">|</span> %>
