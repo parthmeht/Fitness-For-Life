@@ -104,7 +104,7 @@ router.get('/categories/item/:itemCode', async function (req, res) {
     }
 });
 
-router.get('/myItems', async function (req, res) {
+router.get('/myItems', function (req, res) {
     if (req.session.theUser) {
         var data = {
             title: 'myItems',
@@ -116,10 +116,7 @@ router.get('/myItems', async function (req, res) {
             data: data
         });
     } else {
-        var users = await userDB.getUsers();
-        var user1 = users[Math.floor(Math.random() * users.length)];
-        req.session.theUser = user1;
-        res.redirect('/myItems');
+        res.redirect('/signIn');
     }
 });
 

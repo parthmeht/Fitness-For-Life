@@ -1,4 +1,6 @@
 var express = require('express');
+var querystring = require('querystring');    
+
 var router = express.Router();
 var userDB = require('../utility/UserDB');
 var itemDb = require('../utility/ItemDB');
@@ -17,13 +19,16 @@ router.use(bodyParser.urlencoded({
 }));
 
 router.get('/signIn', function(req,res){
+    var errorMessage = req.session.errorMessage;
+    req.session.errorMessage = null;
     if (req.session.theUser) {
         console.log('User already logged in');
         res.redirect('/');
     }else{
         var data = {
             title: 'Sign In',
-            path: req.url
+            path: req.url,
+            errorMessage: errorMessage
         };
         res.render('login', {
             data: data
@@ -36,14 +41,26 @@ router.post('/login', async function (req, res) {
         console.log('User already logged in');
         res.redirect('/');
     } else {
-        var users = await userDB.getUsers();
-        console.log(users);
-        var user = users[Math.floor(Math.random() * users.length)];
+        //var users = await userDB.getUsers();
+        //console.log(users);
+        //var user = users[Math.floor(Math.random() * users.length)];
+        var userEmailId = req.body.inputEmail;
+        var userPassword = req.body.inputPassword;
+        var user = await userDB.getUser(userEmailId);
         console.log(user);
-        req.session.theUser = user;
-        req.session.userProfile = await userDB.getUserProfile(user.userId);
-        console.log('seesion userprofile', req.session.userProfile);
-        res.redirect('/myItems');
+        if (user!=null && user.validPassword(userPassword)) {
+            // password matched. proceed forward
+            req.session.theUser = user;
+            req.session.userProfile = await userDB.getUserProfile(user.userId);
+            console.log('seesion userprofile', req.session.userProfile);
+            res.redirect('/myItems');
+        } else {
+            //password did not match
+            var errorMessage = "Either username or password are incorrect. Please try again.";
+            req.session.errorMessage = errorMessage;            
+            res.redirect('/signIn');
+        }
+        
     }
 });
 

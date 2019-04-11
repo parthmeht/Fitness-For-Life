@@ -3,6 +3,7 @@ var app = express();
 var helmet = require('helmet')
 app.use(helmet())
 var mongoose = require('mongoose');
+var bcrypt = require('bcrypt-nodejs');
 mongoose.Promise = global.Promise;
 
 mongoose.connect('mongodb://localhost/Fitness-For-Life',{ useNewUrlParser: true })
@@ -12,6 +13,9 @@ mongoose.connect('mongodb://localhost/Fitness-For-Life',{ useNewUrlParser: true 
 // view engine setup
 app.set('view engine', 'ejs');
 app.use(express.static('assets'));
+
+//var password = bcrypt.hashSync("password123", bcrypt.genSaltSync(8), null);
+//console.log(password);
 
 var bodyParser = require('body-parser');
 var session = require('express-session');
