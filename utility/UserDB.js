@@ -4,6 +4,23 @@ var UserProfile = require('../model/UserProfile');
 
 var userDB = {};
 
+userDB.createNewUser = function(userObj){
+    return new Promise((resolve, reject)=>{
+        userObj.save().then(function(user){
+            var userProfile = new UserProfile({userId:user.userId,userItemList:[]});
+            userProfile.save().then(function(userProfile){
+                resolve(user);
+            }).catch(function(err){
+                console.log("Error:", err);
+                return reject(err);
+            });
+        }).catch(function(err){
+            console.log("Error:", err);
+            return reject(err); 
+        });
+    });
+}
+
 userDB.getUsers = function () {
     return new Promise((resolve, reject) =>{
         User.find({}).then(function(users) {

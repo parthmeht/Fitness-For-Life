@@ -18,6 +18,7 @@
         <header class="card-header header">
             <% if(data==undefined || data.user==null){%>
                 <span class="header-span">Not Logged In</span>
+                <a class="header-span nav-link" href="/registration_page">Register New User</a>
             <%}else{%>
                 <span class="header-span"><%= 'Welcome '+data.user.firstName+' '+data.user.lastName%></span>
             <% } %>

@@ -10,13 +10,100 @@ var session = require('express-session');
 
 var User = require('../model/User');
 var UserProfile = require('../model/UserProfile');
-var UserItem = require('../model/UserItem');
+
+const { check,validationResult } = require('express-validator/check')
+const { sanitizeBody } = require('express-validator/filter');
 
 router.use(bodyParser.json());
 
 router.use(bodyParser.urlencoded({
     extended: false
 }));
+
+router.get('/registration_page', function(req,res){
+    var errorMessage = req.session.errorMessage;
+    req.session.errorMessage = null;
+    if (req.session.theUser) {
+        console.log('User already logged in');
+        res.redirect('/');
+    }else{
+        var data = {
+            title: 'Register',
+            path: req.url,
+            errorMessage: errorMessage
+        };
+        res.render('register', {
+            data: data
+        });
+    }
+});
+
+router.post('/register', [
+    check('inputEmail').isEmail().normalizeEmail().withMessage('Improper Email Id'),
+    check('inputPassword').not().isEmpty().trim().escape().isLength({ min: 5 }).withMessage('Improper Password'),
+    check('inputFirstName').isLength({min : 3}).withMessage('First Name must be more than 3 characters'),
+    check('inputFirstName').isAlpha().withMessage('First Name should be only alphabets'),
+    check('inputLastName').isLength(({min : 3})).withMessage('Last Name must be more than 3 characters'),
+    check('inputLastName').isAlpha().withMessage('Last Name should be only alphabets'),
+    check('inputConfirmPassword').not().isEmpty().trim().escape().isLength({ min: 5 }).withMessage('Improper Confirm Password'),
+    check('inputConfirmPassword', 'Password Confirmation field must have the same value as the password field').exists().custom((value, { req }) => value === req.body.inputPassword),
+    check('inputEmail', 'Email Id already registered').exists().custom( async (value, { req }) => {
+        var user = await userDB.getUser(value);
+        if(user===null)
+            return true;
+        else
+            return false;
+    })
+], async function (req, res) {
+    const errors = validationResult(req);
+    console.log("***********"+ JSON.stringify(errors.array()));
+    if (errors.array().length>0){
+        //res.render('register',{error:errors.array()});
+        req.session.errorMessage = errors.array();            
+        res.redirect('/registration_page');
+    }else{
+        if (req.session.theUser) {
+            console.log('User already logged in');
+            res.redirect('/');
+        } else {
+            var userObject = {
+                userId: req.body.inputEmail,
+                password: req.body.inputPassword,
+                firstName: req.body.inputFirstName,
+                lastName: req.body.inputLastName,
+                email: req.body.inputEmail,
+                address1: req.body.inputAddress1,
+                address2: req.body.inputAddress2,
+                city: req.body.inputCity,
+                state: req.body.inputState,
+                zipCode: req.body.inputZip, 
+                country: req.body.inputCountry
+            };
+            var userModelObject = new User(userObject);
+            userModelObject.password = userModelObject.generateHash(userObject.password);
+            var user = await userDB.createNewUser(userModelObject);
+            if(user != null){
+                req.session.theUser = user;
+                req.session.userProfile = await userDB.getUserProfile(user.userId);
+                console.log('seesion userprofile', req.session.userProfile);
+                res.redirect('/myItems');
+            }
+            /*if (user!=null && user.validPassword(userPassword)) {
+                // password matched. proceed forward
+                req.session.theUser = user;
+                req.session.userProfile = await userDB.getUserProfile(user.userId);
+                console.log('seesion userprofile', req.session.userProfile);
+                res.redirect('/myItems');
+            } else {
+                //password did not match
+                var errorMessage = "Either username or password are incorrect. Please try again.";
+                req.session.errorMessage = errorMessage;            
+                res.redirect('/signIn');
+            }*/
+            
+        }
+    }
+});
 
 router.get('/signIn', function(req,res){
     var errorMessage = req.session.errorMessage;
@@ -36,14 +123,14 @@ router.get('/signIn', function(req,res){
     }
 });
 
-router.post('/login', async function (req, res) {
+router.post('/login', [
+    check('inputEmail').isEmail().normalizeEmail(),
+    check('inputPassword').not().isEmpty().trim().escape().isLength({ min: 5 })
+], async function (req, res) {
     if (req.session.theUser) {
         console.log('User already logged in');
         res.redirect('/');
     } else {
-        //var users = await userDB.getUsers();
-        //console.log(users);
-        //var user = users[Math.floor(Math.random() * users.length)];
         var userEmailId = req.body.inputEmail;
         var userPassword = req.body.inputPassword;
         var user = await userDB.getUser(userEmailId);
@@ -71,7 +158,9 @@ router.post('/logout', function (req, res) {
     }
 });
 
-router.get('/categories/item/saveIt/:itemCode', async function (req, res) {
+router.get('/categories/item/saveIt/:itemCode', [
+    check('itemCode').not().isEmpty().isInt({ min: 1, max: 99 })
+], async function (req, res) {
     var index = -1;
     if (req.session.theUser) {
         index = getSelectedItem(req.session.userProfile.userItemList, req.params.itemCode);
@@ -97,7 +186,9 @@ router.get('/categories/item/saveIt/:itemCode', async function (req, res) {
     }
 });
 
-router.post('/update/feedback/:itemCode', async function (req, res) {
+router.post('/update/feedback/:itemCode', [
+    check('itemCode').not().isEmpty().isInt({ min: 1, max: 99 })
+], async function (req, res) {
     var index = -1;
     var itemCode = -1;
     if(req.body.itemCode == req.body.itemList){
@@ -135,7 +226,9 @@ router.post('/update/feedback/:itemCode', async function (req, res) {
     }
 });
 
-router.get('/myItems/delete/:itemCode', async function (req, res) {
+router.get('/myItems/delete/:itemCode', [
+    check('itemCode').not().isEmpty().isInt({ min: 1, max: 99 })
+], async function (req, res) {
     var index = -1;
     if (req.session.theUser) {
         index = getSelectedItem(req.session.userProfile.userItemList, req.params.itemCode);
@@ -154,7 +247,7 @@ router.get('/myItems/delete/:itemCode', async function (req, res) {
 
 router.get('/user/newPlan', function(req, res){
     if (req.session.theUser) {
-        req.session.userProfile._userItemList = [];
+        req.session.userProfile.userItemList = [];
         res.redirect('/myItems');
     } else{
         res.redirect('/');

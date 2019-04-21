@@ -7,8 +7,10 @@ var session = require('express-session');
 
 var User = require('../model/User');
 var UserProfile = require('../model/UserProfile');
-var UserItem = require('../model/UserItem');
 var ProfileController = require('./ProfileController');
+
+const { check, param,validationResult } = require('express-validator/check')
+const { sanitizeBody } = require('express-validator/filter');
 
 router.use(bodyParser.json());
 
@@ -79,7 +81,13 @@ router.get('/about', function (req, res) {
     });
 });
 
-router.get('/categories/item/:itemCode', async function (req, res) {
+router.get('/categories/item/:itemCode', 
+    param('itemCode').isNumeric().withMessage('Please enter proper format')
+, async function (req, res, next) {
+    const errors = validationResult(req);
+    if(errors){
+        console.log('inside');
+    }
     var exist = await itemDb.isExist(req.params.itemCode);
     if (exist) {
         var itemData = await itemDb.getItem(req.params.itemCode);
@@ -120,7 +128,9 @@ router.get('/myItems', function (req, res) {
     }
 });
 
-router.get('/categories/item/:itemCode/feedback', async function (req, res) {
+router.get('/categories/item/:itemCode/feedback', [
+    check('itemCode').not().isEmpty().isInt({ min: 1, max: 99 })
+], async function (req, res) {
     var itemData = await itemDb.getItem(req.params.itemCode);
     var data = {
         title: 'Feedback',
