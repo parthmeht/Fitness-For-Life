@@ -10,7 +10,7 @@ itemDB.getItems = function () {
             console.log("Error:", err);
             return reject(err); 
         });
-    })
+    });
 };
 
 
@@ -22,7 +22,7 @@ itemDB.getItem = function (itemCode) {
             console.log("Error:", err);
             return reject(err); 
         });
-    })
+    });
 };
 
 var categories = ['WHEY PROTEIN','BCAA','PRE-WORKOUT SUPPLEMENTS'];
@@ -42,7 +42,21 @@ itemDB.isExist = function(itemCode){
             console.log("Error:", err);
             return reject(err); 
         });
-    })
+    });
 };
+
+itemDB.saveContactDetails = function(details){
+    return new Promise((resolve, reject) => {
+        details.save().then(function(detail){
+            if(detail){
+                resolve(true);
+            }
+        }).catch(function(err) {
+            console.log("Error:", err);
+            return reject(err); 
+        });
+    });
+};
+
 
 module.exports = itemDB;

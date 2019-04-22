@@ -56,7 +56,6 @@ router.post('/register', [
     })
 ], async function (req, res) {
     const errors = validationResult(req);
-    console.log("***********"+ JSON.stringify(errors.array()));
     if (errors.array().length>0){
         //res.render('register',{error:errors.array()});
         req.session.errorMessage = errors.array();            
@@ -88,19 +87,6 @@ router.post('/register', [
                 console.log('seesion userprofile', req.session.userProfile);
                 res.redirect('/myItems');
             }
-            /*if (user!=null && user.validPassword(userPassword)) {
-                // password matched. proceed forward
-                req.session.theUser = user;
-                req.session.userProfile = await userDB.getUserProfile(user.userId);
-                console.log('seesion userprofile', req.session.userProfile);
-                res.redirect('/myItems');
-            } else {
-                //password did not match
-                var errorMessage = "Either username or password are incorrect. Please try again.";
-                req.session.errorMessage = errorMessage;            
-                res.redirect('/signIn');
-            }*/
-            
         }
     }
 });
@@ -159,89 +145,112 @@ router.post('/logout', function (req, res) {
 });
 
 router.get('/categories/item/saveIt/:itemCode', [
-    check('itemCode').not().isEmpty().isInt({ min: 1, max: 99 })
+    check('itemCode').isNumeric().withMessage('Please enter proper format')
 ], async function (req, res) {
-    var index = -1;
-    if (req.session.theUser) {
-        index = getSelectedItem(req.session.userProfile.userItemList, req.params.itemCode);
-        if (index == -2) {
-            var itemData = await itemDb.getItem(req.params.itemCode);
-            var userItem = {
-                itemCode: itemData.itemCode, 
-                itemName: itemData.itemName, 
-                catalogCategory: itemData.catalogCategory, 
-                rating: 0, 
-                madeIt: false
-            };
-            var userProfile = await userDB.addUserItem(req.session.theUser.userId,userItem);
-            req.session.userProfile = userProfile;
-            console.log('userProfile - save : ', req.session.userProfile.userItemList);
-            res.redirect('/myItems');
+    const errors = validationResult(req);
+    if(errors.array().length>0){
+        req.session.errorMessage = errors.array();
+        res.redirect('/error');
+    }else{
+        var index = -1;
+        if (req.session.theUser) {
+            index = getSelectedItem(req.session.userProfile.userItemList, req.params.itemCode);
+            if (index == -2) {
+                var itemData = await itemDb.getItem(req.params.itemCode);
+                var userItem = {
+                    itemCode: itemData.itemCode, 
+                    itemName: itemData.itemName, 
+                    catalogCategory: itemData.catalogCategory, 
+                    rating: 0, 
+                    madeIt: false
+                };
+                var userProfile = await userDB.addUserItem(req.session.theUser.userId,userItem);
+                req.session.userProfile = userProfile;
+                console.log('userProfile - save : ', req.session.userProfile.userItemList);
+                res.redirect('/myItems');
+            } else {
+                console.log('Item already present');
+                res.redirect('/myItems');
+            }
         } else {
-            console.log('Item already present');
-            res.redirect('/myItems');
+            res.redirect('/categories/item/' + req.params.itemCode);
         }
-    } else {
-        res.redirect('/categories/item/' + req.params.itemCode);
     }
 });
 
 router.post('/update/feedback/:itemCode', [
-    check('itemCode').not().isEmpty().isInt({ min: 1, max: 99 })
+    check('itemCode').isNumeric().withMessage('Please enter proper format'),
+    check('itemList').isNumeric().withMessage('Please enter proper format'),
+    check('feedbackHidden').isAlpha().withMessage('Invalid feedback parameter')
 ], async function (req, res) {
-    var index = -1;
-    var itemCode = -1;
-    if(req.body.itemCode == req.body.itemList){
-        itemCode = req.body.itemCode;
-        if (req.session.theUser) {
-            index = getSelectedItem(req.session.userProfile.userItemList, itemCode);
-            if (index == -2) {
-                console.log('Item not present in the users profile');
-                res.redirect('/myItems');
-            } else {
-                if (req.body.feedbackHidden == 'rating') {
-                    console.log(req.body.rating);
-                    var userProfile = await userDB.addItemRating(itemCode, req.session.theUser.userId, parseInt(req.body.rating, 10));
-                    req.session.userProfile = userProfile;
+    const errors = validationResult(req);
+    if(errors.array().length>0 && errors.array()[0].location==="params"){
+        req.session.errorMessage = errors.array();
+        res.redirect('/error');
+    }else if(errors.array().length>0){
+        req.session.errorMessage = errors.array();
+        res.redirect('/categories/item/' + req.params.itemCode + '/feedback');
+    }else{
+        var index = -1;
+        var itemCode = -1;
+        if(req.body.itemCode == req.body.itemList){
+            itemCode = req.body.itemCode;
+            if (req.session.theUser) {
+                index = getSelectedItem(req.session.userProfile.userItemList, itemCode);
+                if (index == -2) {
+                    console.log('Item not present in the users profile');
                     res.redirect('/myItems');
-                } else if (req.body.feedbackHidden == 'madeIt') {
-                    console.log(req.body.madeItRadio);
-                    if(req.body.madeItRadio!=undefined){
-                        var userProfile = await userDB.addMadeIt(itemCode, req.session.theUser.userId, JSON.parse(req.body.madeItRadio));
+                } else {
+                    if (req.body.feedbackHidden == 'rating') {
+                        console.log(req.body.rating);
+                        var userProfile = await userDB.addItemRating(itemCode, req.session.theUser.userId, parseInt(req.body.rating, 10));
                         req.session.userProfile = userProfile;
                         res.redirect('/myItems');
-                    }else{
+                    } else if (req.body.feedbackHidden == 'madeIt') {
+                        console.log(req.body.madeItRadio);
+                        if(req.body.madeItRadio!=undefined){
+                            var userProfile = await userDB.addMadeIt(itemCode, req.session.theUser.userId, JSON.parse(req.body.madeItRadio));
+                            req.session.userProfile = userProfile;
+                            res.redirect('/myItems');
+                        }else{
+                            res.redirect('/categories/item/' + req.params.itemCode + '/feedback');
+                        }
+                    } else {
+                        console.log('Incorrect paramter');
                         res.redirect('/categories/item/' + req.params.itemCode + '/feedback');
                     }
-                } else {
-                    console.log('Incorrect paramter');
-                    res.redirect('/categories/item/' + req.params.itemCode + '/feedback');
                 }
+            } else {
+                res.redirect('/categories/item/' + req.params.itemCode + '/feedback');
             }
-        } else {
+        }else{
             res.redirect('/categories/item/' + req.params.itemCode + '/feedback');
         }
-    }else{
-        res.redirect('/categories/item/' + req.params.itemCode + '/feedback');
     }
 });
 
 router.get('/myItems/delete/:itemCode', [
-    check('itemCode').not().isEmpty().isInt({ min: 1, max: 99 })
+    check('itemCode').isNumeric().withMessage('Please enter proper format')
 ], async function (req, res) {
-    var index = -1;
-    if (req.session.theUser) {
-        index = getSelectedItem(req.session.userProfile.userItemList, req.params.itemCode);
-        if (index == -2) {
-            console.log('Item not present in the users profile');
-            res.redirect('/myItems');
+    const errors = validationResult(req);
+    if(errors.array().length>0){
+        req.session.errorMessage = errors.array();
+        res.redirect('/error');
+    }else{
+        var index = -1;
+        if (req.session.theUser) {
+            index = getSelectedItem(req.session.userProfile.userItemList, req.params.itemCode);
+            if (index == -2) {
+                console.log('Item not present in the users profile');
+                res.redirect('/myItems');
+            } else {
+                var userProfile = await userDB.deleteUserItem(req.params.itemCode,req.session.theUser.userId);
+                req.session.userProfile = userProfile;
+                res.redirect('/myItems');
+            }
         } else {
-            var userProfile = await userDB.deleteUserItem(req.params.itemCode,req.session.theUser.userId);
-            req.session.userProfile = userProfile;
-            res.redirect('/myItems');
+            res.redirect('/');
         }
-    } else {
-        res.redirect('/');
     }
 });
 

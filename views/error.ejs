@@ -5,6 +5,12 @@
             <main class="col-sm-9">
                 <h1>404</h1>
                 <h2>Page Not Found</h2>
+                <% if(data.errorMessage!=undefined && data.errorMessage.length>0) { 
+                    for (let index = 0; index < data.errorMessage.length; index++) {
+                        var element = JSON.stringify(data.errorMessage[index].msg);
+                        element = element.substr(1,element.length-2) %>
+                    <h4 class="mb-3 font-weight-normal alert alert-danger" role="alert"><%=element%></h4>
+                <% }} %>
             </main>
         </div>
         <% include ./partials/footer.ejs %>

@@ -14,7 +14,14 @@
                         <p><%= data.item.description[0]%></p>
                     </div>
                 </div>
-                
+                <div class="row p-2">
+                    <% if(data.errorMessage!=undefined && data.errorMessage.length>0) { 
+                        for (let index = 0; index < data.errorMessage.length; index++) {
+                            var element = JSON.stringify(data.errorMessage[index].msg);
+                            element = element.substr(1,element.length-2) %>
+                        <h6 class="col-sm-12 font-weight-normal alert alert-danger" role="alert"><%=element%></h6>
+                    <% }} %>
+                </div>
                 <form method="POST" action="/update/feedback/<%= data.item.itemCode%>">
                     <input type="hidden" id="ratingHidden" name="feedbackHidden" value="rating">
                     <input type="hidden" name="itemCode" value="<%= data.item.itemCode%>">
@@ -36,11 +43,6 @@
                         </div>
                     </div>
                 </form>
-                <%# <div class="col-md-9 offset-md-3">
-                    <div class="col-md-3 offset-md-7">
-                        <a href="#" class="btn btn-primary main-content-div">I made it <i class="fa fas fa-check-circle"></i></a>
-                    </div>
-                </div> %>
                 <form method="POST" action="/update/feedback/<%= data.item.itemCode%>">
                     <input type="hidden" id="madeItHidden" name="feedbackHidden" value="madeIt">
                     <input type="hidden" name="itemCode" value="<%= data.item.itemCode%>">
