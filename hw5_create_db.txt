@@ -8,7 +8,7 @@ db.createCollection("users_profiles")
 
 db.users.insert({
     userId: "pmehta13@uncc.edu",
-    password: "password123",
+    password: "$2a$08$aGI0NbQvKGvRJd/.8pVfleGNHb7KPmA3vNtS4dfglOf5K5wQ8hXii",
     firstName: "Parth",
     lastName: "Mehta",
     email: "pmehta13@uncc.edu",

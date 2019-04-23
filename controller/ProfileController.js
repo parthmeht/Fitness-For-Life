@@ -53,7 +53,8 @@ router.post('/register', [
             return true;
         else
             return false;
-    })
+    }),
+    check('inputZip').isNumeric().trim().withMessage('Zip Code should have only numerical values')
 ], async function (req, res) {
     const errors = validationResult(req);
     if (errors.array().length>0){
